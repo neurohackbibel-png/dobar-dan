@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dobar Dan – Weil Verstehen keine Sprache braucht</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Georgia','Times New Roman',serif;background:#faf8f5;color:#2c2c2c;line-height:1.8}
+:root{--cream:#f5f0e8;--gold:#8b7355;--gold-light:#c4b8a8;--dark:#1a1a2e;--text:#3a3a3a;--success:#2e7d32;--white:#fff}
+
+/* SPRACHUMSCHALTER */
+.lang-switcher{position:fixed;top:16px;right:20px;z-index:1001;display:flex;gap:6px;background:rgba(255,255,255,.97);padding:8px 12px;border-radius:30px;box-shadow:0 4px 16px rgba(0,0,0,.08);font-family:'Segoe UI',sans-serif;font-size:.82rem}
+.lang-switcher button{border:none;background:transparent;padding:6px 12px;border-radius:20px;cursor:pointer;color:var(--text);font-weight:600;transition:all .3s;font-size:.82rem}
+.lang-switcher button:hover{background:var(--cream)}
+.lang-switcher button.active{background:var(--gold);color:#fff}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;background:rgba(250,248,245,.97);backdrop-filter:blur(10px);border-bottom:1px solid #e8e0d5;z-index:1000;padding:16px 40px;display:flex;justify-content:space-between;align-items:center}
+.nav-logo{font-size:1.3rem;font-weight:700;color:var(--dark)}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{text-decoration:none;color:var(--text);font-size:.88rem;font-family:'Segoe UI',sans-serif;transition:color .3s}
+.nav-links a:hover{color:var(--gold)}
+.nav-toggle{display:none;font-size:1.5rem;cursor:pointer;background:none;border:none}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 40px 80px;background:linear-gradient(160deg,#faf8f5 0%,#f0e8dc 50%,#e8ddd0 100%);text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(184,134,11,.06) 0%,transparent 60%),radial-gradient(circle at 70% 60%,rgba(139,115,85,.08) 0%,transparent 50%);animation:float 20s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(-2%,-2%) rotate(1deg)}}
+.hero-content{position:relative;z-index:1;max-width:900px}
+.hero-ornament{font-size:1.5rem;color:var(--gold-light);letter-spacing:15px;margin-bottom:24px}
+.hero h1{font-size:3rem;line-height:1.25;color:var(--dark);font-weight:400;margin-bottom:16px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero h2{font-size:1.5rem;color:var(--dark);font-weight:400;margin-bottom:28px;line-height:1.5;font-style:italic}
+.hero h2 em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:1.15rem;color:var(--text);max-width:700px;margin:0 auto 40px;line-height:1.8}
+.hero-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--dark);color:#fff;padding:16px 40px;border-radius:10px;text-decoration:none;font-family:'Segoe UI',sans-serif;font-size:1rem;font-weight:600;transition:all .3s;display:inline-block;border:none;cursor:pointer}
+.btn-primary:hover{background:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(139,115,85,.3)}
+.btn-secondary{background:transparent;color:var(--dark);padding:16px 40px;border-radius:10px;border:2px solid var(--gold-light);text-decoration:none;font-family:'Segoe UI',sans-serif;font-size:1rem;font-weight:600;transition:all .3s;display:inline-block;cursor:pointer}
+.btn-secondary:hover{border-color:var(--gold);background:rgba(139,115,85,.05)}
+
+/* SECTIONS */
+section{padding:100px 40px}
+.section-inner{max-width:1000px;margin:0 auto}
+.section-label{font-family:'Segoe UI',sans-serif;font-size:.75rem;text-transform:uppercase;letter-spacing:3px;color:var(--gold);margin-bottom:16px;font-weight:600}
+.section-title{font-size:2.2rem;color:var(--dark);font-weight:400;margin-bottom:24px;line-height:1.3}
+.section-title em{font-style:italic;color:var(--gold)}
+.section-text{font-size:1.05rem;color:var(--text);max-width:750px;margin-bottom:20px}
+
+/* WHY */
+.why{background:var(--white)}
+.why-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin:50px 0}
+.stat-card{background:var(--cream);border-radius:16px;padding:36px 28px;text-align:center;border:1px solid #e8e0d5;transition:all .3s}
+.stat-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(139,115,85,.12);border-color:var(--gold-light)}
+.stat-number{font-size:2.4rem;color:var(--gold);font-weight:700;line-height:1;margin-bottom:12px;font-family:'Segoe UI',sans-serif}
+.stat-label{font-size:.95rem;color:var(--text);line-height:1.6}
+.quote-box{background:var(--cream);border-left:5px solid var(--gold);padding:32px 40px;border-radius:0 12px 12px 0;margin-top:36px}
+.quote-box p{font-size:1.1rem;font-style:italic;color:var(--dark);margin-bottom:0}
+
+/* TEAM */
+.team{background:var(--cream)}
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-top:50px;align-items:center}
+.team-content h3{font-size:1.5rem;color:var(--dark);font-weight:400;margin-bottom:18px;line-height:1.3}
+.team-content h3 em{font-style:italic;color:var(--gold)}
+.team-content p{font-size:1rem;color:var(--text);margin-bottom:16px;line-height:1.8}
+.team-values{list-style:none;margin-top:24px}
+.team-values li{padding:14px 0;border-bottom:1px solid #e8e0d5;font-size:.95rem;color:var(--text);display:flex;gap:14px;align-items:flex-start}
+.team-values li strong{color:var(--dark)}
+.team-values li .team-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px}
+.team-quote{background:var(--white);border-left:5px solid var(--gold);border-radius:0 16px 16px 0;padding:40px 44px;font-style:italic;font-size:1.15rem;color:var(--dark);line-height:1.9;position:relative}
+.team-quote::before{content:'"';font-size:4rem;color:var(--gold-light);position:absolute;top:10px;left:16px;line-height:1}
+.team-quote-author{margin-top:24px;font-style:normal;font-family:'Segoe UI',sans-serif;font-size:.85rem;color:var(--gold);letter-spacing:1px}
+
+/* TRAININGS */
+.trainings{background:var(--white)}
+.training-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-top:50px}
+.training-card{background:var(--cream);border-radius:16px;padding:32px 28px;border:1px solid #e8e0d5;transition:all .3s;text-align:center}
+.training-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(139,115,85,.12);border-color:var(--gold)}
+.training-icon{font-size:2.2rem;margin-bottom:16px;display:block}
+.training-card h3{font-size:1.1rem;color:var(--dark);margin-bottom:10px;font-weight:600}
+.training-card p{font-size:.92rem;color:var(--text);line-height:1.7}
+
+/* PAKETE */
+.packages{background:var(--cream)}
+.package-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;margin-top:50px}
+.package{border:2px solid #e8e0d5;border-radius:18px;padding:36px 30px;transition:all .3s;position:relative;display:flex;flex-direction:column;background:#fff}
+.package:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 16px 40px rgba(139,115,85,.12)}
+.package.featured{border-color:var(--gold);background:linear-gradient(180deg,#fffdf9 0%,#fff 100%)}
+.package-name{font-family:'Segoe UI',sans-serif;font-size:.8rem;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin-bottom:8px;font-weight:600}
+.package-title{font-size:1.4rem;color:var(--dark);margin-bottom:12px;font-weight:400}
+.package-price{font-size:2.2rem;color:var(--dark);font-weight:700;margin-bottom:4px}
+.package-price small{font-size:.9rem;font-weight:400;color:#999}
+.package-desc{font-size:.9rem;color:#777;margin-bottom:24px;font-style:italic}
+.package-features{list-style:none;flex:1;margin-bottom:28px}
+.package-features li{padding:8px 0;font-size:.92rem;color:var(--text);display:flex;gap:10px;align-items:flex-start}
+.package-features li::before{content:'✓';color:var(--success);font-weight:700;flex-shrink:0}
+.package-cta{display:block;text-align:center;padding:14px;border-radius:10px;background:var(--dark);color:#fff;text-decoration:none;font-family:'Segoe UI',sans-serif;font-weight:600;font-size:.95rem;transition:background .3s;border:none;cursor:pointer;width:100%}
+.package-cta:hover{background:var(--gold)}
+
+/* PROMISE */
+.promise{background:var(--dark);color:#fff;text-align:center}
+.promise .section-label{color:var(--gold-light)}
+.promise .section-title{color:#fff}
+.promise .section-title em{color:var(--gold-light)}
+.promise .section-text{color:rgba(255,255,255,.7);margin:0 auto}
+.promise-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;margin-top:50px}
+.promise-item{padding:30px 20px;border:1px solid rgba(255,255,255,.15);border-radius:14px;transition:all .3s}
+.promise-item:hover{border-color:var(--gold-light);background:rgba(255,255,255,.04)}
+.promise-item h3{font-size:1.05rem;color:var(--gold-light);margin-bottom:10px;font-weight:600}
+.promise-item p{font-size:.9rem;color:rgba(255,255,255,.75);line-height:1.7}
+
+/* IDEOLOGIE */
+.ideology{background:var(--cream);text-align:center}
+.ideology-quote{max-width:800px;margin:40px auto 0;font-size:1.6rem;font-style:italic;color:var(--dark);line-height:1.7;font-weight:400}
+.ideology-quote em{color:var(--gold);font-style:italic}
+.ideology-author{margin-top:24px;font-family:'Segoe UI',sans-serif;font-size:.85rem;color:var(--gold);letter-spacing:2px;text-transform:uppercase}
+
+/* CTA */
+.cta-section{background:linear-gradient(160deg,#f0e8dc 0%,#e8ddd0 100%);text-align:center}
+.cta-box{max-width:700px;margin:0 auto}
+.cta-box .section-title{font-size:2.4rem}
+.cta-box .section-text{margin:0 auto 36px}
+
+/* FOOTER */
+footer{background:var(--dark);color:rgba(255,255,255,.6);padding:60px 40px 40px;font-family:'Segoe UI',sans-serif;font-size:.85rem}
+.footer-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}
+.footer-brand{font-size:1.3rem;color:#fff;font-weight:700;margin-bottom:12px;font-family:'Georgia',serif}
+.footer-brand span{color:var(--gold-light)}
+.footer-desc{line-height:1.7;max-width:320px}
+.footer-col h4{color:#fff;font-size:.9rem;margin-bottom:16px;font-weight:600}
+.footer-col a{display:block;color:rgba(255,255,255,.6);text-decoration:none;margin-bottom:10px;transition:color .3s}
+.footer-col a:hover{color:var(--gold-light)}
+.footer-bottom{max-width:1000px;margin:40px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);text-align:center;font-size:.8rem}
+
+@media (max-width:900px){.footer-inner{grid-template-columns:1fr}.team-grid{grid-template-columns:1fr;gap:30px}}
+@media (max-width:768px){
+nav{padding:14px 20px}
+.nav-links{display:none}
+.nav-toggle{display:block}
+.nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#faf8f5;padding:20px;gap:16px;border-bottom:1px solid #e8e0d5}
+.lang-switcher{top:70px;right:10px;padding:6px 8px;font-size:.7rem;flex-wrap:wrap}
+.lang-switcher button{padding:4px 8px;font-size:.7rem}
+section{padding:70px 22px}
+.hero{padding:100px 22px 60px}
+.hero h1{font-size:1.9rem}
+.hero h2{font-size:1.2rem}
+.hero-sub{font-size:1rem}
+.section-title{font-size:1.6rem}
+.ideology-quote{font-size:1.2rem}
+.package-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- SPRACHUMSCHALTER -->
+<div class="lang-switcher">
+    <button onclick="setLang('de')" id="btn-de" class="active">🇩🇪 DE</button>
+    <button onclick="setLang('sr')" id="btn-sr">🇷🇸 SR</button>
+    <button onclick="setLang('hr')" id="btn-hr">🇭🇷 HR</button>
+    <button onclick="setLang('bs')" id="btn-bs">🇧🇦 BS</button>
+    <button onclick="setLang('en')" id="btn-en">🇬🇧 EN</button>
+</div>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-logo">Dobar <span>Dan</span></div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+        <a href="#why" data-i18n="nav_why">Warum wichtig</a>
+        <a href="#team" data-i18n="nav_team">Unser Team</a>
+        <a href="#trainings" data-i18n="nav_trainings">Trainings</a>
+        <a href="#packages" data-i18n="nav_packages">Pakete</a>
+        <a href="#contact" data-i18n="nav_contact">Erstgespräch</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+    <div class="hero-content">
+        <div class="hero-ornament">✦ ✦ ✦</div>
+        <h1><span data-i18n="hero_title_1">Weil Verstehen keine Sprache braucht –</span><br><em data-i18n="hero_title_2">aber eine Stimme.</em></h1>
+        <h2><span data-i18n="hero_sub_1">Nicht irgendeine Stimme – sondern eine, </span><em data-i18n="hero_sub_2">die zuhört. Die versteht. Die bleibt.</em></h2>
+        <p class="hero-sub" data-i18n="hero_text">Professionelle telefonische Seniorenbetreuung in Ihrer Muttersprache. Geschultes Fachpersonal aus dem Balkan. Premium-Erlebnistag. Individuelle Trainings. Für die Diaspora in Deutschland, Österreich und der Schweiz.</p>
+        <div class="hero-buttons">
+            <a href="#packages" class="btn-primary" data-i18n="hero_btn1">Probier-Monat starten</a>
+            <a href="#team" class="btn-secondary" data-i18n="hero_btn2">Unser Team kennenlernen</a>
+        </div>
+    </div>
+</header>
+
+<!-- WHY -->
+<section class="why" id="why">
+    <div class="section-inner">
+        <div class="section-label" data-i18n="why_label">Warum das wichtig ist</div>
+        <h2 class="section-title"><span data-i18n="why_title_1">Ihre Eltern verdienen mehr</span><br><em data-i18n="why_title_2">als ein „Mir geht es gut“ am Telefon.</em></h2>
+        <p class="section-text" data-i18n="why_text">Einsamkeit ist kein Randphänomen. Sie ist eine stille Krise, die Millionen betrifft – und die ältere Generation der Balkan-Diaspora trifft sie doppelt: durch Sprache, durch Kultur, durch Distanz.</p>
+        <div class="why-stats">
+            <div class="stat-card"><div class="stat-number">43 %</div><div class="stat-label" data-i18n="stat1">der über 75-Jährigen in Deutschland fühlen sich häufig einsam</div></div>
+            <div class="stat-card"><div class="stat-number">300.000+</div><div class="stat-label" data-i18n="stat2">Senioren der Balkan-Diaspora in DACH leben allein</div></div>
+            <div class="stat-card"><div class="stat-number">5×</div><div class="stat-label" data-i18n="stat3">höheres Risiko für Depression bei sozialer Isolation</div></div>
+            <div class="stat-card"><div class="stat-number">0 €</div><div class="stat-label" data-i18n="stat4">geben Pflegedienste für Gesellschaft aus – sie behandeln nur Körper</div></div>
+        </div>
+        <div class="quote-box">
+            <p data-i18n="why_quote">„Einsamkeit ist keine Krankheit, die man sieht. Aber sie ist eine, die man fühlt – jeden Tag. Sie verschwindet nicht, wenn man Tabletten nimmt. Sie verschwindet, wenn jemand da ist. Wenn jemand anruft.“</p>
+        </div>
+    </div>
+</section>
+
+<!-- TEAM -->
+<section class="team" id="team">
+    <div class="section-inner">
+        <div class="section-label" data-i18n="team_label">Unser Team</div>
+        <h2 class="section-title"><span data-i18n="team_title_1">Der Mensch hinter dem Anruf.</span><br><em data-i18n="team_title_2">Das Herz unseres Services.</em></h2>
+        <div class="team-grid">
+            <div class="team-content">
+                <h3><span data-i18n="team_h3_1">Wir sind nicht ein Callcenter. </span><em data-i18n="team_h3_2">Wir sind Menschen.</em></h3>
+                <p data-i18n="team_p1">Jeder Betreuer wird sorgfältig ausgewählt, geschult und begleitet. Wir suchen nicht die erstbeste Kraft – wir suchen die richtige. Empathie, Geduld und echtes Interesse am Menschen sind wichtiger als jeder Lebenslauf.</p>
+                <p data-i18n="team_p2">Unsere Betreuer kommen aus dem ehemaligen Jugoslawien. Sie kennen die Kultur, die Sprache, die Geschichten. Sie wissen, was „Heimat“ bedeutet – weil sie selbst zwischen zwei Welten leben.</p>
+                <ul class="team-values">
+                    <li><span class="team-icon">🔄</span><div><strong data-i18n="tv1_t">Wir passen uns an.</strong> <span data-i18n="tv1_d">Kein Fall ist wie der andere. Wir finden Lösungen – auch dort, wo andere sagen: „Das geht nicht.“</span></div></li>
+                    <li><span class="team-icon">💪</span><div><strong data-i18n="tv2_t">Wir geben nicht auf.</strong> <span data-i18n="tv2_d">Wenn ein Senior sich verschließt, suchen wir den Zugang. Wenn ein Problem unlösbar erscheint, suchen wir weiter.</span></div></li>
+                    <li><span class="team-icon">🤝</span><div><strong data-i18n="tv3_t">Wir sind ein Team.</strong> <span data-i18n="tv3_d">Betreuer, Koordinator und Familie arbeiten Hand in Hand.</span></div></li>
+                    <li><span class="team-icon">📚</span><div><strong data-i18n="tv4_t">Wir lernen jeden Tag.</strong> <span data-i18n="tv4_d">Aus jedem Gespräch, aus jedem Fall, aus jedem Feedback.</span></div></li>
+                </ul>
+            </div>
+            <div>
+                <div class="team-quote">
+                    <span data-i18n="team_quote">Ich hatte einen Senior, der drei Wochen lang kein Wort gesagt hat. Ich habe nicht aufgegeben. Auf einmal hat er angefangen zu erzählen. Zwei Stunden. Seitdem ruft er mich jeden Mittwoch an.</span>
+                    <div class="team-quote-author" data-i18n="team_quote_author">— Betreuerin aus Sarajevo</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TRAININGS -->
+<section class="trainings" id="trainings">
+    <div class="section-inner">
+        <div class="section-label" data-i18n="tr_label">Individuelle Trainings</div>
+        <h2 class="section-title"><span data-i18n="tr_title_1">Spaß. Fitness. Wohlbefinden.</span><br><em data-i18n="tr_title_2">Telefonisch angeleitet.</em></h2>
+        <p class="section-text" data-i18n="tr_text">Unsere individuellen Trainings sind keine Pflichtübungen. Sie sind Einladungen – zum Lachen, zum Bewegen, zum Erinnern. In jedem Paket zubuchbar – ab 29 € pro Einheit.</p>
+        <div class="training-grid">
+            <div class="training-card"><span class="training-icon">🧠</span><h3 data-i18n="tr1_t">Gedächtnis-Quiz</h3><p data-i18n="tr1_d">Spielerische Übungen für die grauen Zellen.</p></div>
+            <div class="training-card"><span class="training-icon">🪑</span><h3 data-i18n="tr2_t">Sitz-Gymnastik</h3><p data-i18n="tr2_d">Sanfte Bewegungen für mehr Beweglichkeit.</p></div>
+            <div class="training-card"><span class="training-icon">🌬️</span><h3 data-i18n="tr3_t">Atem-Übungen</h3><p data-i18n="tr3_d">Entspannung und Lungengesundheit.</p></div>
+            <div class="training-card"><span class="training-icon">🎵</span><h3 data-i18n="tr4_t">Musik-Session</h3><p data-i18n="tr4_d">Gemeinsames Singen alter Lieder.</p></div>
+            <div class="training-card"><span class="training-icon">📖</span><h3 data-i18n="tr5_t">Bewegungsgeschichten</h3><p data-i18n="tr5_d">Fantasievolle Übungen für Koordination.</p></div>
+            <div class="training-card"><span class="training-icon">🗣️</span><h3 data-i18n="tr6_t">Sprach-Spiele</h3><p data-i18n="tr6_d">Sprichwörter, Wortketten – mit viel Lachen.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages" id="packages">
+    <div class="section-inner">
+        <div class="section-label" data-i18n="pk_label">So starten Sie</div>
+        <h2 class="section-title"><span data-i18n="pk_title_1">Erst probieren. </span><em data-i18n="pk_title_2">Dann entscheiden.</em></h2>
+        <p class="section-text" data-i18n="pk_text">Jeder Mensch hat andere Bedürfnisse. Deshalb starten wir mit einem einmaligen Probier-Monat. Danach stellen wir gemeinsam das Angebot zusammen, das zu Ihren Eltern passt.</p>
+        <div class="package-grid">
+            <div class="package featured">
+                <div class="package-name" data-i18n="pk1_name">Probier-Monat · Einmalig</div>
+                <div class="package-title" data-i18n="pk1_title">Premium-Erlebnistag</div>
+                <div class="package-price">79 € <small data-i18n="pk_month">einmalig</small></div>
+                <p class="package-desc" data-i18n="pk1_desc">Alle Leistungen aus den Premium-Paketen an einem Tag – kostenlos.</p>
+                <ul class="package-features">
+                    <li data-i18n="pk1_f1">3× Check-in pro Woche</li>
+                    <li data-i18n="pk1_f2">1 Premium-Erlebnistag</li>
+                    <li data-i18n="pk1_f3">1 individuelles Training</li>
+                    <li data-i18n="pk1_f4">Wochenbericht an Familie</li>
+                    <li data-i18n="pk1_f5">Kein Abo. Monatlich kündbar</li>
+                </ul>
+                <button class="package-cta" data-i18n="pk_btn">Paket anfragen</button>
+            </div>
+            <div class="package">
+                <div class="package-name" data-i18n="pk2_name">Abo · Standard</div>
+                <div class="package-title" data-i18n="pk2_title">Lebensqualität</div>
+                <div class="package-price">169 € <small data-i18n="pk_month2">/ Monat</small></div>
+                <p class="package-desc" data-i18n="pk2_desc">Für Senioren, die regelmäßige Gesellschaft suchen.</p>
+                <ul class="package-features">
+                    <li data-i18n="pk2_f1">3× Check-in pro Woche</li>
+                    <li data-i18n="pk2_f2">2× Gespräch pro Woche (30–45 Min.)</li>
+                    <li data-i18n="pk2_f3">1 Training pro Monat inklusive</li>
+                    <li data-i18n="pk2_f4">Wöchentlicher Bericht</li>
+                    <li data-i18n="pk2_f5">Monatlich kündbar</li>
+                </ul>
+                <button class="package-cta" data-i18n="pk_btn">Paket anfragen</button>
+            </div>
+            <div class="package">
+                <div class="package-name" data-i18n="pk3_name">Abo · Premium</div>
+                <div class="package-title" data-i18n="pk3_title">Familien-Brücke</div>
+                <div class="package-price">269 € <small data-i18n="pk_month2">/ Monat</small></div>
+                <p class="package-desc" data-i18n="pk3_desc">Für Familien, die maximale Transparenz wollen.</p>
+                <ul class="package-features">
+                    <li data-i18n="pk3_f1">4× Kontakt pro Woche</li>
+                    <li data-i18n="pk3_f2">2 Trainings pro Monat inklusive</li>
+                    <li data-i18n="pk3_f3">Terminerinnerungen</li>
+                    <li data-i18n="pk3_f4">Individuallösungen möglich</li>
+                    <li data-i18n="pk3_f5">Monatlich kündbar</li>
+                </ul>
+                <button class="package-cta" data-i18n="pk_btn">Paket anfragen</button>
+            </div>
+            <div class="package">
+                <div class="package-name" data-i18n="pk4_name">Abo · Exklusiv</div>
+                <div class="package-title" data-i18n="pk4_title">Rundum-Sorglos</div>
+                <div class="package-price">399 € <small data-i18n="pk_month2">/ Monat</small></div>
+                <p class="package-desc" data-i18n="pk4_desc">Für Familien, die absolute Sicherheit wollen.</p>
+                <ul class="package-features">
+                    <li data-i18n="pk4_f1">Täglicher Check-in (Mo–Sa)</li>
+                    <li data-i18n="pk4_f2">4 Trainings pro Monat inklusive</li>
+                    <li data-i18n="pk4_f3">Backup-Betreuungskraft</li>
+                    <li data-i18n="pk4_f4">Individuallösungen möglich</li>
+                    <li data-i18n="pk4_f5">Monatlich kündbar</li>
+                </ul>
+                <button class="package-cta" data-i18n="pk_btn">Paket anfragen</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROMISE -->
+<section class="promise">
+    <div class="section-inner">
+        <div class="section-label" data-i18n="pr_label">Unser Versprechen</div>
+        <h2 class="section-title"><span data-i18n="pr_title_1">Wir sind zufrieden, </span><em data-i18n="pr_title_2">wenn Sie es sind.</em></h2>
+        <p class="section-text" data-i18n="pr_text">Keine Vertragslaufzeit. Kein Risiko. Kein Kleingedrucktes.</p>
+        <div class="promise-grid">
+            <div class="promise-item"><h3 data-i18n="pr1_t">Keine Vertragslaufzeit</h3><p data-i18n="pr1_d">Monatlich kündbar – jederzeit.</p></div>
+            <div class="promise-item"><h3 data-i18n="pr2_t">Faire Preise</h3><p data-i18n="pr2_d">Der Preis ist der Preis. Keine versteckten Kosten.</p></div>
+            <div class="promise-item"><h3 data-i18n="pr3_t">Feste Bezugsperson</h3><p data-i18n="pr3_d">Immer dieselbe Stimme. Immer derselbe Mensch.</p></div>
+            <div class="promise-item"><h3 data-i18n="pr4_t">Transparenz</h3><p data-i18n="pr4_d">Wöchentlicher Bericht. Die Familie weiß, wie es geht.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- IDEOLOGIE -->
+<section class="ideology">
+    <div class="section-inner">
+        <div class="section-label" data-i18n="id_label">Unsere Ideologie</div>
+        <div class="ideology-quote">
+            <span data-i18n="id_q1">„Wir verkaufen keine Anrufe.</span><br>
+            <span data-i18n="id_q2">Wir verkaufen </span><em data-i18n="id_q3">Heimat, Würde und Verbundenheit</em><span data-i18n="id_q4"> –</span><br>
+            <span data-i18n="id_q5">in einer Sprache, die das Herz versteht.</span><br>
+            <span data-i18n="id_q6">Und keine Staatskasse der Welt kann das ersetzen.“</span>
+        </div>
+        <div class="ideology-author">— Aleksandar Terzic</div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+    <div class="section-inner">
+        <div class="cta-box">
+            <div class="section-label" data-i18n="cta_label">Kostenloses Erstgespräch</div>
+            <h2 class="section-title"><span data-i18n="cta_title_1">Lassen Sie uns 15 Minuten sprechen.</span><br><em data-i18n="cta_title_2">Unverbindlich. Persönlich.</em></h2>
+            <p class="section-text" data-i18n="cta_text">Erzählen Sie mir von Ihren Eltern. Ich erzähle Ihnen, wie wir helfen können. Wenn es passt – starten wir mit dem Probier-Monat.</p>
+            <div style="margin-top:36px">
+                <a href="mailto:kontakt@dobar-dan.com" class="btn-primary" data-i18n="cta_btn1">E-Mail schreiben</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div>
+            <div class="footer-brand">Dobar <span>Dan</span></div>
+            <p class="footer-desc" data-i18n="ft_desc">Professionelle telefonische Seniorenbetreuung in der Muttersprache. Geschultes Fachpersonal aus dem Balkan.</p>
+        </div>
+        <div class="footer-col">
+            <h4 data-i18n="ft_nav">Navigation</h4>
+            <a href="#why" data-i18n="nav_why">Warum wichtig</a>
+            <a href="#team" data-i18n="nav_team">Unser Team</a>
+            <a href="#trainings" data-i18n="nav_trainings">Trainings</a>
+            <a href="#packages" data-i18n="nav_packages">Pakete</a>
+        </div>
+        <div class="footer-col">
+            <h4 data-i18n="ft_legal">Rechtliches</h4>
+            <a href="#">Impressum</a>
+            <a href="#">Datenschutz</a>
+            <a href="#">AGB</a>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2026 Dobar Dan | Aleksandar Terzic</div>
+</footer>
+
+<script>
+const translations = {
+    de: {
+        nav_why:"Warum wichtig",nav_team:"Unser Team",nav_trainings:"Trainings",nav_packages:"Pakete",nav_contact:"Erstgespräch",
+        hero_title_1:"Weil Verstehen keine Sprache braucht –",hero_title_2:"aber eine Stimme.",
+        hero_sub_1:"Nicht irgendeine Stimme – sondern eine, ",hero_sub_2:"die zuhört. Die versteht. Die bleibt.",
+        hero_text:"Professionelle telefonische Seniorenbetreuung in Ihrer Muttersprache. Geschultes Fachpersonal aus dem Balkan. Premium-Erlebnistag. Individuelle Trainings. Für die Diaspora in Deutschland, Österreich und der Schweiz.",
+        hero_btn1:"Probier-Monat starten",hero_btn2:"Unser Team kennenlernen",
+        why_label:"Warum das wichtig ist",why_title_1:"Ihre Eltern verdienen mehr",why_title_2:"als ein „Mir geht es gut“ am Telefon.",
+        why_text:"Einsamkeit ist kein Randphänomen. Sie ist eine stille Krise, die Millionen betrifft – und die ältere Generation der Balkan-Diaspora trifft sie doppelt.",
+        stat1:"der über 75-Jährigen in Deutschland fühlen sich häufig einsam",stat2:"Senioren der Balkan-Diaspora in DACH leben allein",stat3:"höheres Risiko für Depression bei sozialer Isolation",stat4:"geben Pflegedienste für Gesellschaft aus – sie behandeln nur Körper",
+        why_quote:"„Einsamkeit ist keine Krankheit, die man sieht. Aber sie ist eine, die man fühlt – jeden Tag. Sie verschwindet nicht, wenn man Tabletten nimmt. Sie verschwindet, wenn jemand da ist.“",
+        team_label:"Unser Team",team_title_1:"Der Mensch hinter dem Anruf.",team_title_2:"Das Herz unseres Services.",
+        team_h3_1:"Wir sind nicht ein Callcenter. ",team_h3_2:"Wir sind Menschen.",
+        team_p1:"Jeder Betreuer wird sorgfältig ausgewählt, geschult und begleitet. Wir suchen nicht die erstbeste Kraft – wir suchen die richtige.",
+        team_p2:"Unsere Betreuer kommen aus dem ehemaligen Jugoslawien. Sie kennen die Kultur, die Sprache, die Geschichten.",
+        tv1_t:"Wir passen uns an.",tv1_d:"Kein Fall ist wie der andere. Wir finden Lösungen.",
+        tv2_t:"Wir geben nicht auf.",tv2_d:"Wenn ein Senior sich verschließt, suchen wir den Zugang.",
+        tv3_t:"Wir sind ein Team.",tv3_d:"Betreuer, Koordinator und Familie arbeiten Hand in Hand.",
+        tv4_t:"Wir lernen jeden Tag.",tv4_d:"Aus jedem Gespräch, aus jedem Fall, aus jedem Feedback.",
+        team_quote:"Ich hatte einen Senior, der drei Wochen lang kein Wort gesagt hat. Ich habe nicht aufgegeben. Auf einmal hat er angefangen zu erzählen. Zwei Stunden. Seitdem ruft er mich jeden Mittwoch an.",
+        team_quote_author:"— Betreuerin aus Sarajevo",
+        tr_label:"Individuelle Trainings",tr_title_1:"Spaß. Fitness. Wohlbefinden.",tr_title_2:"Telefonisch angeleitet.",
+        tr_text:"Unsere individuellen Trainings sind keine Pflichtübungen. Sie sind Einladungen – zum Lachen, zum Bewegen, zum Erinnern. In jedem Paket zubuchbar – ab 29 € pro Einheit.",
+        tr1_t:"Gedächtnis-Quiz",tr1_d:"Spielerische Übungen für die grauen Zellen.",
+        tr2_t:"Sitz-Gymnastik",tr2_d:"Sanfte Bewegungen für mehr Beweglichkeit.",
+        tr3_t:"Atem-Übungen",tr3_d:"Entspannung und Lungengesundheit.",
+        tr4_t:"Musik-Session",tr4_d:"Gemeinsames Singen alter Lieder.",
+        tr5_t:"Bewegungsgeschichten",tr5_d:"Fantasievolle Übungen für Koordination.",
+        tr6_t:"Sprach-Spiele",tr6_d:"Sprichwörter, Wortketten – mit viel Lachen.",
+        pk_label:"So starten Sie",pk_title_1:"Erst probieren. ",pk_title_2:"Dann entscheiden.",
+        pk_text:"Jeder Mensch hat andere Bedürfnisse. Deshalb starten wir mit einem einmaligen Probier-Monat.",
+        pk1_name:"Probier-Monat · Einmalig",pk1_title:"Premium-Erlebnistag",pk1_desc:"Alle Leistungen aus den Premium-Paketen an einem Tag – kostenlos.",
+        pk1_f1:"3× Check-in pro Woche",pk1_f2:"1 Premium-Erlebnistag",pk1_f3:"1 individuelles Training",pk1_f4:"Wochenbericht an Familie",pk1_f5:"Kein Abo. Monatlich kündbar",
+        pk2_name:"Abo · Standard",pk2_title:"Lebensqualität",pk2_desc:"Für Senioren, die regelmäßige Gesellschaft suchen.",
+        pk2_f1:"3× Check-in pro Woche",pk2_f2:"2× Gespräch pro Woche",pk2_f3:"1 Training pro Monat",pk2_f4:"Wöchentlicher Bericht",pk2_f5:"Monatlich kündbar",
+        pk3_name:"Abo · Premium",pk3_title:"Familien-Brücke",pk3_desc:"Für Familien, die maximale Transparenz wollen.",
+        pk3_f1:"4× Kontakt pro Woche",pk3_f2:"2 Trainings pro Monat",pk3_f3:"Terminerinnerungen",pk3_f4:"Individuallösungen möglich",pk3_f5:"Monatlich kündbar",
+        pk4_name:"Abo · Exklusiv",pk4_title:"Rundum-Sorglos",pk4_desc:"Für Familien, die absolute Sicherheit wollen.",
+        pk4_f1:"Täglicher Check-in",pk4_f2:"4 Trainings pro Monat",pk4_f3:"Backup-Betreuung",pk4_f4:"Individuallösungen möglich",pk4_f5:"Monatlich kündbar",
+        pk_btn:"Paket anfragen",pk_month:"einmalig",pk_month2:"/ Monat",
+        pr_label:"Unser Versprechen",pr_title_1:"Wir sind zufrieden, ",pr_title_2:"wenn Sie es sind.",
+        pr_text:"Keine Vertragslaufzeit. Kein Risiko. Kein Kleingedrucktes.",
+        pr1_t:"Keine Vertragslaufzeit",pr1_d:"Monatlich kündbar – jederzeit.",pr2_t:"Faire Preise",pr2_d:"Der Preis ist der Preis.",pr3_t:"Feste Bezugsperson",pr3_d:"Immer dieselbe Stimme.",pr4_t:"Transparenz",pr4_d:"Wöchentlicher Bericht.",
+        id_label:"Unsere Ideologie",id_q1:"„Wir verkaufen keine Anrufe.",id_q2:"Wir verkaufen ",id_q3:"Heimat, Würde und Verbundenheit",id_q4:" –",id_q5:"in einer Sprache, die das Herz versteht.",id_q6:"Und keine Staatskasse der Welt kann das ersetzen.“",
+        cta_label:"Kostenloses Erstgespräch",cta_title_1:"Lassen Sie uns 15 Minuten sprechen.",cta_title_2:"Unverbindlich. Persönlich.",
+        cta_text:"Erzählen Sie mir von Ihren Eltern. Ich erzähle Ihnen, wie wir helfen können.",cta_btn1:"E-Mail schreiben",
+        ft_desc:"Professionelle telefonische Seniorenbetreuung in der Muttersprache.",ft_nav:"Navigation",ft_legal:"Rechtliches"
+    },
+    sr: {
+        nav_why:"Зашто је важно",nav_team:"Наш тим",nav_trainings:"Тренинзи",nav_packages:"Пакети",nav_contact:"Разговор",
+        hero_title_1:"Није потребан језик да би се разумели –",hero_title_2:"потребан је глас.",
+        hero_sub_1:"Не било који глас – већ глас ",hero_sub_2:"који слуша. Који разуме. Који остаје.",
+        hero_text:"Професионална телефонска брига о сениорима на матерњем језику. Школовано особље са Балкана. Премијум дан. Индивидуални тренинзи. За дијаспору у Немачкој, Аустрији и Швајцарској.",
+        hero_btn1:"Започни пробни месец",hero_btn2:"Упознај наш тим",
+        why_label:"Зашто је ово важно",why_title_1:"Ваши родитељи заслужују више",why_title_2:"од „Добро сам“ на телефону.",
+        why_text:"Самоћа није маргинална појава. То је тиха криза која погађа милионе – а старију генерацију балканске дијаспоре погађа двоструко.",
+        stat1:"особа старијих од 75 година у Немачкој осећа се често усамљено",stat2:"сениора балканске дијаспоре у ДАЦХ живи само",stat3:"већи ризик од депресије при социјалној изолацији",stat4:"троше службе неге на друштво – оне лече само тело",
+        why_quote:"„Самоћа није болест која се види. Али јесте болест која се осећа – сваког дана. Нестаје када је неко ту.“",
+        team_label:"Наш тим",team_title_1:"Човек иза позива.",team_title_2:"Срце наше услуге.",
+        team_h3_1:"Нисмо кол центар. ",team_h3_2:"Ми смо људи.",
+        team_p1:"Сваки неговатељ се пажљиво бира, обучава и прати. Тражимо правог човека – не првог ко наиђе.",
+        team_p2:"Наши неговатељи долазе из бивше Југославије. Познају културу, језик, приче.",
+        tv1_t:"Прилагођавамо се.",tv1_d:"Ниједан случај није исти. Налазимо решења.",
+        tv2_t:"Не одустајемо.",tv2_d:"Када се сениор затвори, тражимо приступ.",
+        tv3_t:"Тим смо.",tv3_d:"Неговатељ, координатор и породица раде заједно.",
+        tv4_t:"Учимо сваког дана.",tv4_d:"Из сваког разговора, из сваког случаја.",
+        team_quote:"Имала сам сениора који три недеље није рекао ни реч. Нисам одустала. Одједном је почео да прича. Два сата. Од тада ме зове сваке среде.",
+        team_quote_author:"— Неговатељица из Сарајева",
+        tr_label:"Индивидуални тренинзи",tr_title_1:"Забава. Кондиција. Боље здравље.",tr_title_2:"Телефонски вођено.",
+        tr_text:"Наши индивидуални тренинзи нису обавезне вежбе. Они су позив – на смех, на покрет, на сећање. Доступно у сваком пакету – од 29 €.",
+        tr1_t:"Квиз памћења",tr1_d:"Игриве вежбе за сиве ћелије.",
+        tr2_t:"Гимнастика седећи",tr2_d:"Благи покрети за бољу покретљивост.",
+        tr3_t:"Вежбе дисања",tr3_d:"Опуштање и здравље плућа.",
+        tr4_t:"Музичка сесија",tr4_d:"Заједничко певање старих песама.",
+        tr5_t:"Покретне приче",tr5_d:"Маштовите вежбе за координацију.",
+        tr6_t:"Језичке игре",tr6_d:"Пословице, низови речи – уз пуно смеха.",
+        pk_label:"Како да почнете",pk_title_1:"Прво пробајте. ",pk_title_2:"Онда одлучите.",
+        pk_text:"Свака особа има различите потребе. Зато почињемо са једнократним пробним месецом.",
+        pk1_name:"Пробни месец · Једнократно",pk1_title:"Премијум дан",pk1_desc:"Све услуге из премијум пакета на један дан – бесплатно.",
+        pk1_f1:"3× провера недељно",pk1_f2:"1 премијум дан",pk1_f3:"1 индивидуални тренинг",pk1_f4:"Недељни извештај",pk1_f5:"Без претплате. Отказиво месечно",
+        pk2_name:"Претплата · Стандард",pk2_title:"Квалитет живота",pk2_desc:"За сениоре који траже редовно друштво.",
+        pk2_f1:"3× провера недељно",pk2_f2:"2× разговор недељно",pk2_f3:"1 тренинг месечно",pk2_f4:"Недељни извештај",pk2_f5:"Отказиво месечно",
+        pk3_name:"Претплата · Премијум",pk3_title:"Породични мост",pk3_desc:"За породице које желе максималну транспарентност.",
+        pk3_f1:"4× контакт недељно",pk3_f2:"2 тренинга месечно",pk3_f3:"Подсетници за термине",pk3_f4:"Могућа индивидуална решења",pk3_f5:"Отказиво месечно",
+        pk4_name:"Претплата · Ексклузив",pk4_title:"Безбрижно",pk4_desc:"За породице које желе апсолутну сигурност.",
+        pk4_f1:"Дневна провера",pk4_f2:"4 тренинга месечно",pk4_f3:"Резервна неговатељица",pk4_f4:"Могућа индивидуална решења",pk4_f5:"Отказиво месечно",
+        pk_btn:"Закажи пакет",pk_month:"једнократно",pk_month2:"/ месец",
+        pr_label:"Наше обећање",pr_title_1:"Задовољни смо, ",pr_title_2:"ако сте ви задовољни.",
+        pr_text:"Без уговорне обавезе. Без ризика. Без ситних слова.",
+        pr1_t:"Без уговорне обавезе",pr1_d:"Отказиво месечно.",pr2_t:"Поштене цене",pr2_d:"Цена је цена.",pr3_t:"Фиксна особа",pr3_d:"Увек исти глас.",pr4_t:"Транспарентност",pr4_d:"Недељни извештај.",
+        id_label:"Наша идеологија",id_q1:"„Не продајемо позиве.",id_q2:"Продајемо ",id_q3:"дом, достојанство и повезаност",id_q4:" –",id_q5:"на језику који срце разуме.",id_q6:"И ниједна државна каса то не може заменити.“",
+        cta_label:"Бесплатни први разговор",cta_title_1:"Попуните 15 минута разговора.",cta_title_2:"Без обавезе. Лично.",
+        cta_text:"Реците ми о својим родитељима. Ја ћу вам рећи како можемо да помогнемо.",cta_btn1:"Пошаљи е-пошту",
+        ft_desc:"Професионална телефонска брига на матерњем језику.",ft_nav:"Навигација",ft_legal:"Правно"
+    },
+    hr: {
+        nav_why:"Zašto je važno",nav_team:"Naš tim",nav_trainings:"Treninzi",nav_packages:"Paketi",nav_contact:"Razgovor",
+        hero_title_1:"Nije potreban jezik da bi se razumjeli –",hero_title_2:"potreban je glas.",
+        hero_sub_1:"Ne bilo koji glas – već glas ",hero_sub_2:"koji sluša. Koji razumije. Koji ostaje.",
+        hero_text:"Profesionalna telefonska briga o seniorima na materinjem jeziku. Školovano osoblje s Balkana. Premium dan. Individualni treninzi. Za dijasporu u Njemačkoj, Austriji i Švicarskoj.",
+        hero_btn1:"Započni probni mjesec",hero_btn2:"Upoznaj naš tim",
+        why_label:"Zašto je ovo važno",why_title_1:"Vaši roditelji zaslužuju više",why_title_2:"od „Dobro sam“ na telefonu.",
+        why_text:"Samoća nije marginalna pojava. To je tiha kriza koja pogađa milijune – a stariju generaciju balkanske dijaspore pogađa dvostruko.",
+        stat1:"osoba starijih od 75 godina u Njemačkoj osjeća se često usamljeno",stat2:"seniora balkanske dijaspore u DACH živi samo",stat3:"veći rizik od depresije pri socijalnoj izolaciji",stat4:"troše službe njege na društvo – liječe samo tijelo",
+        why_quote:"„Samoća nije bolest koja se vidi. Ali jest bolest koja se osjeća – svaki dan. Nestaje kada je netko tu.“",
+        team_label:"Naš tim",team_title_1:"Čovjek iza poziva.",team_title_2:"Srce naše usluge.",
+        team_h3_1:"Nismo call centar. ",team_h3_2:"Mi smo ljudi.",
+        team_p1:"Svaki njegovatelj se pažljivo bira, obučava i prati. Tražimo pravog čovjeka.",
+        team_p2:"Naši njegovatelji dolaze iz bivše Jugoslavije. Poznaju kulturu, jezik, priče.",
+        tv1_t:"Prilagođavamo se.",tv1_d:"Nijedan slučaj nije isti.",
+        tv2_t:"Ne odustajemo.",tv2_d:"Kada se senior zatvori, tražimo pristup.",
+        tv3_t:"Tim smo.",tv3_d:"Njegovatelj, koordinator i obitelj rade zajedno.",
+        tv4_t:"Učimo svaki dan.",tv4_d:"Iz svakog razgovora, iz svakog slučaja.",
+        team_quote:"Imala sam seniora koji tri tjedna nije rekao ni riječ. Nisam odustala. Odjednom je počeo pričati. Dva sata. Od tada me zove svake srijede.",
+        team_quote_author:"— Njegovateljica iz Sarajeva",
+        tr_label:"Individualni treninzi",tr_title_1:"Zabava. Kondicija. Bolje zdravlje.",tr_title_2:"Telefonski vođeno.",
+        tr_text:"Naši individualni treninzi nisu obavezne vježbe. Oni su poziv – na smijeh, na pokret, na sjećanje. Dostupno u svakom paketu – od 29 €.",
+        tr1_t:"Kviz pamćenja",tr1_d:"Igrive vježbe za sive stanice.",
+        tr2_t:"Gimnastika sjedeći",tr2_d:"Blagi pokreti za bolju pokretljivost.",
+        tr3_t:"Vježbe disanja",tr3_d:"Opuštanje i zdravlje pluća.",
+        tr4_t:"Glazbena sesija",tr4_d:"Zajedničko pjevanje starih pjesama.",
+        tr5_t:"Pokretne priče",tr5_d:"Maštovite vježbe za koordinaciju.",
+        tr6_t:"Jezične igre",tr6_d:"Poslovice, nizovi riječi – uz puno smijeha.",
+        pk_label:"Kako započeti",pk_title_1:"Prvo probajte. ",pk_title_2:"Onda odlučite.",
+        pk_text:"Svaka osoba ima različite potrebe. Zato počinjemo s jednokratnim probnim mjesecom.",
+        pk1_name:"Probni mjesec · Jednokratno",pk1_title:"Premium dan",pk1_desc:"Sve usluge iz premium paketa na jedan dan – besplatno.",
